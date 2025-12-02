@@ -1,0 +1,107 @@
+#play-root {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#play-root h2 {
+    color: #4CAF50;
+    border-bottom: 2px solid #4CAF50;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+#questions-container {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.question {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    border-left: 4px solid #4CAF50;
+}
+
+.question h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #333;
+    font-size: 1.2em;
+}
+
+.question p {
+    margin: 5px 0;
+    color: #666;
+    font-size: 0.9em;
+}
+
+fieldset {
+    border: none;
+    padding: 15px 0;
+    margin: 10px 0;
+}
+
+fieldset label {
+    display: block;
+    padding: 10px;
+    margin: 5px 0;
+    background-color: white;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+fieldset label:hover {
+    border-color: #4CAF50;
+    background-color: #f0f8f0;
+}
+
+fieldset input[type="radio"],
+fieldset input[type="checkbox"] {
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+fieldset label:has(input:checked) {
+    border-color: #4CAF50;
+    background-color: #e8f5e9;
+    font-weight: 500;
+}
+
+#questions-container button[type="submit"] {
+    margin-top: 20px;
+    width: 100%;
+    padding: 15px;
+    font-size: 18px;
+}
+
+#questions-container button[type="submit"]:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+#questions-container hr {
+    border: none;
+    border-top: 1px solid #ddd;
+    margin: 20px 0;
+}
+
+#questions-container>button:not([type="submit"]) {
+    margin: 10px 5px;
+    width: auto;
+}
+
+.validation-banner {
+    background-color: #ffebee;
+    color: #c62828;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    border-left: 4px solid #c62828;
+}
