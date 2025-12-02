@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -25,6 +26,7 @@ import net.cmr.quizapp.entity.QuizScoreEntity;
 import net.cmr.quizapp.entity.QuizScoreResponse;
 import net.cmr.quizapp.entity.QuizSubmittion;
 import net.cmr.quizapp.entity.UserEntity;
+import net.cmr.quizapp.otdb.OTDBQuizResponse;
 import net.cmr.quizapp.repository.*;
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.ObjectMapper;
@@ -206,6 +208,15 @@ public class ApplicationProcessor {
         int randomIndex = (int) (Math.random() * allQuizzes.size());
         QuizEntity randomQuiz = allQuizzes.get(randomIndex);
         return generateQuizObject(randomQuiz.getId());
+    }
+
+    public Long saveOTDBQuiz(OTDBQuizResponse quizResponse) {
+        Objects.requireNonNull(quizResponse);
+        QuizEntity entity = OTDBService.saveQuiz(quizResponse);
+        if (entity != null) {
+            return entity.getId();
+        }
+        return -1L;
     }
 
 }

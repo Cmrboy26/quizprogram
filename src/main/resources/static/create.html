@@ -23,5 +23,118 @@
         <p>
             Due to limited time constraints, custom quiz creation features are not yet implemented.
         </p>
+        <h3>Generate Auto-Generated Quiz</h3>
+        <p>
+            Generate a quiz from Open Trivia Database.
+        </p>
+        <form id="opentdb-form">
+            <label for="category-select">Select a category:</label>
+            <select id="category-select" name="area">
+                <script>
+                    fetch('https://opentdb.com/api_category.php', { method: 'GET' })
+                        .then(response => response.json())
+                        .then(data => {
+                            const select = document.getElementById('category-select');
+                            const categories = data.trivia_categories;
+                            select.innerHTML = '<option value="">Any Genre</option>';
+
+                            categories.forEach(category => {
+                                const option = document.createElement('option');
+                                option.value = category.id;
+                                option.textContent = category.name;
+                                select.appendChild(option);
+                            });
+
+                            /*Object.entries(data).forEach(([id, name]) => {
+                                const option = document.createElement('option');
+                                option.value = id;
+                                option.textContent = name;
+                                select.appendChild(option);
+                            });*/
+                        })
+                        .catch(error => console.error('Error fetching categories:', error));
+                </script>
+            </select>
+            <br>
+            <label for="difficulty-select">Select difficulty:</label>
+            <select id="difficulty-select" name="difficulty">
+                <option value="">Any Difficulty</option>
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard</option>
+            </select>
+            <br>
+            <label for="num-questions">Number of questions (1-50):</label>
+            <input type="number" id="num-questions" name="num_questions" min="1" max="50" value="10" required>
+            <br>
+            <button type="submit">Generate Quiz</button>
+        </form>
+        <script>
+            document.getElementById('opentdb-form').addEventListener('submit', function(event) {
+                event.preventDefault();
+                
+                const category = document.getElementById('category-select').value;
+                const difficulty = document.getElementById('difficulty-select').value;
+                const numQuestions = document.getElementById('num-questions').value;
+
+                let apiUrl = `https://opentdb.com/api.php?amount=${numQuestions}&type=multiple`;
+                if (category) {
+                    apiUrl += `&category=${category}`;
+                }
+                if (difficulty) {
+                    apiUrl += `&difficulty=${difficulty.toLowerCase()}`;
+                }
+
+                console.log('Fetching from URL:', apiUrl);
+
+                fetch(apiUrl)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.response_code !== 0) {
+                            if (data.response_code === 1) {
+                                alert('No results found. The API doesn\'t have enough questions for your query. Please try different options.');
+                            } else if (data.response_code === 2) {
+                                alert('Invalid parameter in the request. Please check your selections.');
+                            } else if (data.response_code === 3) {
+                                alert('Session token not found. Please try again.');
+                            } else if (data.response_code === 4) {
+                                alert('Session token empty. All questions have been used. Please try again later.');
+                            } else if (data.response_code === 5) {
+                                alert('Rate limit exceeded. Please wait a few seconds and try again.');
+                            } else {
+                                alert(`An unknown error occurred (Code: ${data.response_code}). Please try again.`);
+                            }
+                            return;
+                        }
+                        // Redirect to a new page to display the generated quiz
+                        // For simplicity, we will just log the data here
+                        console.log('Generated Quiz Data:', data);
+                        fetch('/api/quiz/opentdb', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(data)
+                        })
+                        .then(response => response.json())
+                        .then(quizId => {
+                            console.log('Quiz saved with ID:', quizId);
+                            const quizUrl = window.location.origin + `/play.html?id=${quizId}`;
+                            const message = `Quiz generated successfully!\n\nQuiz URL: ${quizUrl}\n\nClick OK to go to your quiz or Cancel to stay on this page.`;
+                            if (confirm(message)) {
+                                window.location.href = quizUrl;
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error saving quiz:', error);
+                            alert('Error saving quiz. Please try again.');
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error generating quiz:', error);
+                        alert('Error generating quiz. Please try again later.');
+                    });
+            });
+        </script>
     </div>
 </html>

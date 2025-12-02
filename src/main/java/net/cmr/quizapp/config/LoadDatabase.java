@@ -80,7 +80,7 @@ public class LoadDatabase {
             log.info("Generated quiz! Id: "+quizId);
 
             // Periodically generate random quizzes
-            new Thread(() -> {
+            /*new Thread(() -> {
                 while (true) {
                     try {
                         Thread.sleep(10000); // Wait 60 seconds
@@ -92,7 +92,7 @@ public class LoadDatabase {
                         break;
                     }
                 }
-            }).start();
+            }).start();*/
         };
     }
 

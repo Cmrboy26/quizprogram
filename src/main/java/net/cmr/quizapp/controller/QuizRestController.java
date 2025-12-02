@@ -7,7 +7,9 @@ import net.cmr.quizapp.entity.QuizResponseEntity;
 import net.cmr.quizapp.entity.QuizScoreEntity;
 import net.cmr.quizapp.entity.QuizScoreResponse;
 import net.cmr.quizapp.entity.QuizSubmittion;
+import net.cmr.quizapp.otdb.OTDBQuizResponse;
 import net.cmr.quizapp.repository.QuizRepository;
+import net.cmr.quizapp.service.OTDBService;
 
 import java.util.List;
 import java.util.Map;
@@ -24,9 +26,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 public class QuizRestController {
+
+    private final OTDBService OTDBService;
     
     @Autowired
     private ApplicationProcessor applicationProcessor;
+
+    QuizRestController(OTDBService OTDBService) {
+        this.OTDBService = OTDBService;
+    }
+
+    @PostMapping("/api/quiz/opentdb")
+    public Long generateCustomQuiz(@RequestBody OTDBQuizResponse quizResponse) {
+        return applicationProcessor.saveOTDBQuiz(quizResponse);
+    }
 
     @GetMapping("/api/quiz/getRandom")
     public ResponseEntity<QuizResponseEntity> getRandomQuiz() {

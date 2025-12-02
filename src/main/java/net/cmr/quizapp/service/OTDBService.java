@@ -83,7 +83,11 @@ public class OTDBService {
             throw new RuntimeException("Failed to fetch quiz from OpenTDB. Response code: " + 
                 (response != null ? response.getResponseCode() : "null"));
         }
-
+        return saveQuiz(response);
+    }
+    
+    @Transactional
+    public QuizEntity saveQuiz(OTDBQuizResponse response) {
         // Create and save quiz
         QuizEntity quiz = new QuizEntity();
         quiz.setName("Open Trivia Database Quiz - " + System.currentTimeMillis() % 5000);
