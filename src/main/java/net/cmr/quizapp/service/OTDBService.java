@@ -86,8 +86,8 @@ public class OTDBService {
 
         // Create and save quiz
         QuizEntity quiz = new QuizEntity();
-        quiz.setName("OpenTDB Quiz - " + System.currentTimeMillis());
-        quiz.setDescription("Quiz fetched from Open Trivia Database");
+        quiz.setName("Open Trivia Database Quiz - " + System.currentTimeMillis() % 5000);
+        quiz.setDescription("Quiz automatically fetched from Open Trivia Database.");
         
         quiz = quizRepository.save(quiz);
 

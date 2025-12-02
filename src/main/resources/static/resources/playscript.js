@@ -75,7 +75,7 @@ function onQuizLoaded(quizJson) {
     quizData = quizJson;
 
     const playRoot = document.getElementById('play-root');
-    playRoot.innerHTML = `<h2>Quiz Loaded: ${quizJson.name}</h2>
+    playRoot.innerHTML = `<h2>${quizJson.name}</h2>
                           <p>${quizJson.description}</p>`;
     const questionsContainer = document.createElement('form');
     questionsContainer.id = 'questions-container';
@@ -87,7 +87,6 @@ function onQuizLoaded(quizJson) {
     });
     playRoot.appendChild(questionsContainer);
 
-    // Add a submit button at the end
     submitButton = document.createElement('button');
     submitButton.textContent = 'Submit Quiz';
     submitButton.type = 'submit';
@@ -166,17 +165,19 @@ function displayAnswerSummary(summary) {
 
     const questionDiv = document.getElementById('questions-container');
     questionDiv.innerHTML = '<h2>Quiz Results</h2>';
-    incorrectQuestions.forEach(question => {
-        const fullQuestion = quizData.questions.find(q => q.order === question);
+    incorrectQuestions.forEach(questionId => {
+        const fullQuestion = quizData.questions.find(q => q.question_id === questionId);
+        if (!fullQuestion) return;
         const questionElement = createQuestionElement(fullQuestion, false);
         questionDiv.appendChild(questionElement);
-        questionDiv.innerHTML += '<p style="color: red;">Incorrect</p><hr>';
+        questionDiv.innerHTML += '<p class="incorrect">Incorrect</p><hr>';
     });
-    correctQuestions.forEach(question => {
-        const fullQuestion = quizData.questions.find(q => q.order === question);
+    correctQuestions.forEach(questionId => {
+        const fullQuestion = quizData.questions.find(q => q.question_id === questionId);
+        if (!fullQuestion) return;
         const questionElement = createQuestionElement(fullQuestion, false);
         questionDiv.appendChild(questionElement);
-        questionDiv.innerHTML += '<p style="color: green;">Correct</p><hr>';
+        questionDiv.innerHTML += '<p class="correct">Correct</p><hr>';
     });
     questionDiv.innerHTML += `<p>Your Score: ${summary.score} (${correctQuestions.length} / ${total})</p>`;
     if (summary.score_submitted) {
@@ -209,7 +210,7 @@ function createQuestionElement(question, allowAnswers = true) {
     const informationDiv = document.createElement('div');
     questionDiv.appendChild(informationDiv);
 
-    questionDiv.innerHTML = `<h3>${question.prompt}</h3>`;
+    questionDiv.innerHTML = `<h3>${question.order}. ${question.prompt}</h3>`;
 
     if (allowAnswers) {
         const responseTypeId = question.response_type_id;

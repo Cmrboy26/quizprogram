@@ -42,7 +42,6 @@ public class QuizRestController {
     public QuizScoreResponse submitQuiz(@RequestBody QuizSubmittion submittion) {
         return applicationProcessor.processQuizSubmittion(submittion);
     }
-    
 
     @GetMapping("/api/categories")
     public Map<Long, String> getCategoryNameIdPairs() {

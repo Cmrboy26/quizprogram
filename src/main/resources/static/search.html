@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="resources/stylesheet.css">
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            for (i = 1; i <= 10; i++) {
+            for (i = 1; i <= 9; i++) {
                 fetch('/api/quiz/getRandom')
                     .then(response => response.json())
                     .then(data => {
@@ -15,23 +15,85 @@
                         if (!quizList) return;
                         quizId = 'quiz-' + data.quiz_id;
                         if (document.getElementById(quizId)) return;
-                        const listItem = createQuizListItem(data);
-                        quizList.appendChild(listItem);
+                        const quizCard = createQuizCard(data);
+                        quizList.appendChild(quizCard);
                     })
                     .catch(error => console.error('Error fetching recent quizzes:', error));
+                /*card = createQuizCard({
+                    quiz_id: i,
+                    name: 'Sample Quiz ' + i,
+                    description: 'This is a description for Sample Quiz ' + i + '. It is meant to demonstrate the quiz card layout in the search page.'
+                });
+                document.getElementById('quiz-list').appendChild(card);*/
             }
         });
 
-        function createQuizListItem(quiz) {
-            const listItem = document.createElement('li');
-            listItem.id = 'quiz-' + quiz.quiz_id;
+        function createQuizCard(quiz) {
+            const card = document.createElement('div');
+            card.className = 'quiz-card';
+            card.id = 'quiz-' + quiz.quiz_id;
+            
             const quizLink = document.createElement('a');
             quizLink.href = '/play.html?id=' + quiz.quiz_id;
-            quizLink.textContent = quiz.name;
-            listItem.appendChild(quizLink);
-            return listItem;
+            quizLink.className = 'quiz-card-link';
+            
+            const title = document.createElement('h3');
+            title.textContent = quiz.name;
+            title.className = 'quiz-card-title';
+            
+            const description = document.createElement('p');
+            description.className = 'quiz-card-description';
+            const maxLength = 100;
+            const desc = quiz.description || 'No description available';
+            description.textContent = desc.length > maxLength 
+                ? desc.substring(0, maxLength) + '...' 
+                : desc;
+            
+            quizLink.appendChild(title);
+            quizLink.appendChild(description);
+            card.appendChild(quizLink);
+            
+            return card;
         }
     </script>
+    <style>
+        #quiz-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .quiz-card {
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            width: calc(33.333% - 14px);
+            flex-shrink: 0;
+        }
+
+        .quiz-card-link {
+            display: block;
+            padding: 15px;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .quiz-card-link:hover {
+            background-color: #f9f9f9;
+        }
+
+        .quiz-card-title {
+            margin: 0 0 10px 0;
+            font-size: 1.2em;
+        }
+
+        .quiz-card-description {
+            margin: 0;
+            color: #555;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -43,11 +105,15 @@
                 <li><a href="/account.html">Account</a></li>
             </ul>
         </nav>
-    </header>
-    <h1>SEARCH for Simple Quizzes</h1>
-    <h2>For all your quizzing needs, look no further!</h2>
-    <h3>Randomly Selected Quizzes:</h3>
-    <ul id="quiz-list">
-        <!-- Quiz items will be dynamically inserted here -->
-    </ul>
+        </header>
+    </div>
+    <div id="main-content">
+        <h1 id="main-title">Search for Simple Quizzes</h1>
+        <h2 id="main-subtitle">For all your quizzing needs, look no further!</h2>
+        <h3>Randomly Selected Quizzes</h3>
+        <div id="quiz-list">
+            <!-- Quiz items will be inserted here -->
+        </div>
+    </div>
+</body>
 </html>

@@ -40,7 +40,7 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
+    background-color: #ebebeb;
     color: #333;
     line-height: 1.6;
 }
@@ -71,20 +71,20 @@ button:hover {
     background-color: #45a049;
 }
 
-input[type="text"],
-input[type="email"],
-input[type="password"],
-textarea {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-sizing: border-box;
-    margin-bottom: 10px;
+#main-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
 }
 
-input:focus,
-textarea:focus {
-    outline: none;
-    border-color: #4CAF50;
+#main-title {
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+#main-subtitle {
+    text-align: center;
+    margin-bottom: 15px;
 }
