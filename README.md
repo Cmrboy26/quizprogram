@@ -13,13 +13,12 @@ keep track of the user's score and display feedback at the end of the quiz.
 
 ### Prerequisites
 - Java 17 or higher
-- Maven 3.8+
 
 ### Running the Application
 1. Clone the repository
 2. Navigate to the project directory
-3. Run: `mvn spring-boot:run`
-4. Open browser to `http://localhost:8080`
+3. Run: `.\gradlew bootRun`
+4. Open browser to `http://localhost:8080/home.html`
 
 ### Database
 - Uses in-memory H2 database (no configuration needed)
