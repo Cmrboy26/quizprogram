@@ -80,10 +80,12 @@ public class LoadDatabase {
             log.info("Generated quiz! Id: "+quizId);
 
             // Periodically generate random quizzes
+            // NOTE: If you wanted quizzes to automatically generate every few seconds to populate the search table, uncomment the block below
+
             /*new Thread(() -> {
                 while (true) {
                     try {
-                        Thread.sleep(10000); // Wait 60 seconds
+                        Thread.sleep(10000);
                         Long periodicQuizId = applicationProcessor.generateRandomQuiz(10L, null, null);
                         log.info("Periodically generated quiz! Id: " + periodicQuizId);
                     } catch (InterruptedException e) {
