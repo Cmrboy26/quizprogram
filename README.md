@@ -23,7 +23,7 @@ keep track of the user's score and display feedback at the end of the quiz.
 
 ### Database
 - Uses in-memory H2 database (no configuration needed)
-- Auto-populated with Open Trivia Database categories on startup
+- Auto-populated with Open Trivia Database categories and difficulties on first startup
 
 # Design
 
